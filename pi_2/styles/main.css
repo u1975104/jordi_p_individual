@@ -1,0 +1,55 @@
+body {
+	font-family: 'Courier New', Courier, monospace;
+}
+
+#title{
+	font-size: 26px;
+	line-height: 75px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+.container {
+    display: grid;
+	grid-template-columns: 1fr 1fr auto;
+  	grid-auto-rows: minmax(200px,auto);
+  	gap: 5px;
+}
+
+.game-container {
+	align-items: center;
+	display: grid;
+	grid-template-columns: 0.1fr 0.1fr 0.1fr;
+  	grid-auto-rows: minmax(200px,auto);
+  	gap: 5px;
+}
+
+
+.menu-object{
+	font-family:'Courier New', Courier, monospace;
+	background-color: lightskyblue;
+	border-radius: 25px;
+	margin:40px;
+	width: 300px;
+	height: 75px;
+	font-size: 16px;
+}
+
+
+p{
+	text-align: center;
+}
+
+button.menu-object:active{
+	font-size: 18px;
+	width: 275px;
+	height: 70px;
+}
+
+button.menu-object:hover:not(:active){
+	font-size: 22px;
+	width: 325px;
+	height: 85px;
+}
+
