@@ -2,6 +2,21 @@ const back = "../resources/back.png";
 const items = ["../resources/cb.png","../resources/co.png","../resources/sb.png",
 "../resources/so.png","../resources/tb.png","../resources/to.png"];
 
+
+const mostrarCartes = setTimeout(girarCartes, 2000);
+
+
+function girarCartes() {
+	for (var i = 0; i < this.items.length; i++){
+		this.current_card.push({done: false, texture: this.back}); //PER GIRAR-LES DESPRES DE X TEMPS
+	}
+	girarCartesAcaba();
+}
+
+function girarCartesAcaba() {
+  clearTimeout(mostrarCartes);
+}
+
 var game = new Vue({
 	el: "#game_id",
 	data: {
@@ -9,10 +24,17 @@ var game = new Vue({
 		current_card: [],
 		items: [],
 		num_cards: 2,
-		bad_clicks: 0
+		bad_clicks: 0,
+		difficulty:"normal"
 	},
 	created: function(){
 		this.username = sessionStorage.getItem("username","unknown");
+		//NUMERO DE CARTES
+		var json = localStorage.getItem("config") || '{"cards":2,"dificulty":"hard"}';
+		options_data = JSON.parse(json);
+		this.num_cards = options_data.cards;
+		//DIFICULTAT
+		this.difficulty = options_data.difficulty;
 		this.items = items.slice(); // Copiem l'array
 		this.items.sort(function(){return Math.random() - 0.5}); // Array aleatòria
 		this.items = this.items.slice(0, this.num_cards); // Agafem els primers numCards elements
@@ -57,7 +79,14 @@ var game = new Vue({
 	},
 	computed: {
 		score_text: function(){
-			return 100 - this.bad_clicks * 20;
+			if (this.difficulty == "hard") {
+				return 100 - this.bad_clicks * 40
+			} else if (this.difficulty == "normal") {
+				return 100 - this.bad_clicks * 20
+			} else { //easy
+				return 100 - this.bad_clicks * 10
+			}
+			;
 		}
 	}
 });
