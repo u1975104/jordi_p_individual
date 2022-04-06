@@ -3,20 +3,6 @@ const items = ["../resources/cb.png","../resources/co.png","../resources/sb.png"
 "../resources/so.png","../resources/tb.png","../resources/to.png"];
 
 
-const mostrarCartes = setTimeout(girarCartes, 2000);
-
-
-function girarCartes() {
-	for (var i = 0; i < this.items.length; i++){
-		this.current_card.push({done: false, texture: this.back}); //PER GIRAR-LES DESPRES DE X TEMPS
-	}
-	girarCartesAcaba();
-}
-
-function girarCartesAcaba() {
-  clearTimeout(mostrarCartes);
-}
-
 var game = new Vue({
 	el: "#game_id",
 	data: {
@@ -34,7 +20,7 @@ var game = new Vue({
 		options_data = JSON.parse(json);
 		this.num_cards = options_data.cards;
 		//DIFICULTAT
-		this.difficulty = options_data.difficulty;
+		this.difficulty = options_data.dificulty;
 		this.items = items.slice(); // Copiem l'array
 		this.items.sort(function(){return Math.random() - 0.5}); // Array aleatòria
 		this.items = this.items.slice(0, this.num_cards); // Agafem els primers numCards elements
@@ -43,11 +29,24 @@ var game = new Vue({
 		for (var i = 0; i < this.items.length; i++){
 			this.current_card.push({done: false, texture: back});
 		}
+		setTimeout(this.girarCartes, 2000);
+		setTimeout(this.tornarNormalitat, 6000);
 	},
 	methods: {
 		clickCard: function(i){
 			if (!this.current_card[i].done && this.current_card[i].texture === back)
 				Vue.set(this.current_card, i, {done: false, texture: this.items[i]});
+		},
+
+		girarCartes: function(i){
+			for (var i = 0; i < this.current_card.length; i++){
+				Vue.set(this.current_card, i, {done: false, texture: this.items[i]});
+			}
+		},
+		tornarNormalitat: function(i){
+			for (var i = 0; i < this.current_card.length; i++){
+				Vue.set(this.current_card, i, {done: false, texture: back});
+			}
 		}
 	},
 	watch: {
