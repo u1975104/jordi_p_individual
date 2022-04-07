@@ -2,7 +2,6 @@ const back = "../resources/back.png";
 const items = ["../resources/cb.png","../resources/co.png","../resources/sb.png",
 "../resources/so.png","../resources/tb.png","../resources/to.png"];
 
-
 var game = new Vue({
 	el: "#game_id",
 	data: {
@@ -11,7 +10,8 @@ var game = new Vue({
 		items: [],
 		num_cards: 2,
 		bad_clicks: 0,
-		difficulty:"normal"
+		difficulty:"normal",
+		started: false
 	},
 	created: function(){
 		this.username = sessionStorage.getItem("username","unknown");
@@ -47,11 +47,12 @@ var game = new Vue({
 			for (var i = 0; i < this.current_card.length; i++){
 				Vue.set(this.current_card, i, {done: false, texture: back});
 			}
+			this.started = true;
 		}
 	},
 	watch: {
 		current_card: function(value){
-			if (value.texture === back) return;
+			if (value.texture === back || !this.started) return;
 			var front = null;
 			var i_front = -1;
 			for (var i = 0; i < this.current_card.length; i++){
